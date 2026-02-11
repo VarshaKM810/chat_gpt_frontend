@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -19,15 +20,24 @@ const Home = () => {
         </div>
 
         {/* Action buttons */}
-        <div className="flex flex-wrap gap-2 mt-4 justify-center">
-          {["Attach", "Search", "Study", "Create image"].map((item) => (
-            <button
-              key={item}
-              className="px-4 py-1.5 text-sm border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition"
-            >
-              {item}
-            </button>
-          ))}
+        <div className="flex flex-col items-center mt-6">
+          <Link
+            to="/dashboard"
+            className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 transition shadow-xl shadow-indigo-100 mb-6"
+          >
+            Go to Dashboard
+          </Link>
+
+          <div className="flex flex-wrap gap-2 justify-center">
+            {["Attach", "Search", "Study", "Create image"].map((item) => (
+              <button
+                key={item}
+                className="px-4 py-1.5 text-sm border border-gray-300 rounded-full text-gray-700 hover:bg-gray-100 transition"
+              >
+                {item}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
