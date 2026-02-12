@@ -110,14 +110,17 @@ const Ask_AI = () => {
     };
 
     const handleNewChat = (mode = 'General') => {
+        // If mode is an event (e.g. from onClick={handleNewChat}), default to 'General'
+        const confirmedMode = typeof mode === 'string' ? mode : 'General';
+
         const newId = Date.now().toString();
         setCurrentConversationId(newId);
         setMessages([
-            { role: 'assistant', content: `Hello! I'm ready to help you with ${mode === 'General' ? 'anything' : mode}. How can I assist you today?` }
+            { role: 'assistant', content: `Hello! I'm ready to help you with ${confirmedMode === 'General' ? 'anything' : confirmedMode}. How can I assist you today?` }
         ]);
         setInput('');
         setSelectedFile(null);
-        setActiveMode(mode);
+        setActiveMode(confirmedMode);
     };
 
     const handleSendMessage = async (e, directQuery = null) => {
@@ -247,7 +250,7 @@ const Ask_AI = () => {
                     </button>
 
                     <button
-                        onClick={handleNewChat}
+                        onClick={() => handleNewChat('General')}
                         className="sidebar-item hover:bg-slate-200/50 justify-between mb-4 border border-slate-200 shadow-sm bg-white"
                     >
                         <div className="flex items-center gap-2">
@@ -302,6 +305,13 @@ const Ask_AI = () => {
                     >
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2z" /></svg>
                         Projects
+                    </button>
+                    <button
+                        onClick={() => setActiveMode('History')}
+                        className={`sidebar-item ${activeMode === 'History' ? 'active' : ''}`}
+                    >
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        Detailed History
                     </button>
                 </div>
 
@@ -377,7 +387,45 @@ const Ask_AI = () => {
                 {/* Messages Container */}
                 <div className="flex-1 overflow-y-auto px-4 py-8">
                     <div className="max-w-3xl mx-auto w-full">
-                        {/* Special Hub Views for Different Modes */}
+                        {activeMode === 'History' && (
+                            <div className="mb-12 animate-in fade-in slide-in-from-top-4 duration-500">
+                                <div className="flex items-center justify-between mb-8">
+                                    <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                                        <svg className="w-7 h-7 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                        Conversation History
+                                    </h2>
+                                    <button className="text-xs font-bold text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-lg transition">Clear All History</button>
+                                </div>
+                                <div className="space-y-3">
+                                    {conversations.map((conv) => (
+                                        <div key={conv.conversation_id} className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-indigo-300 hover:shadow-md transition flex items-center justify-between group">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-indigo-500 border border-slate-100">
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-bold text-slate-800">{conv.title}</h4>
+                                                    <p className="text-xs text-slate-400">Last updated: {new Date(conv.last_updated).toLocaleString()}</p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                onClick={() => { loadConversation(conv.conversation_id); setActiveMode('General'); }}
+                                                className="opacity-0 group-hover:opacity-100 bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition"
+                                            >
+                                                Resume Chat
+                                            </button>
+                                        </div>
+                                    ))}
+                                    {conversations.length === 0 && (
+                                        <div className="text-center py-20 border-2 border-dashed border-slate-100 rounded-3xl">
+                                            <p className="text-slate-400 font-medium">Your conversation history will appear here.</p>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="h-px bg-slate-100 w-full my-12" />
+                            </div>
+                        )}
+
                         {activeMode === 'Apps' && messages.length === 1 && (
                             <div className="mb-12 animate-in fade-in slide-in-from-top-4 duration-500">
                                 <div className="flex items-center justify-between mb-6">
