@@ -64,6 +64,16 @@ const Dashboard = () => {
                         <span className="font-medium">Dashboard</span>
                     </button>
 
+                    <button
+                        onClick={() => navigate('/ask')}
+                        className="w-full flex items-center space-x-3 text-slate-400 hover:text-white hover:bg-slate-800 px-4 py-3 rounded-xl transition group"
+                    >
+                        <svg className="w-5 h-5 group-hover:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span className="font-medium">Ask AI</span>
+                    </button>
+
                     <button className="w-full flex items-center space-x-3 text-slate-400 hover:text-white hover:bg-slate-800 px-4 py-3 rounded-xl transition group">
                         <svg className="w-5 h-5 group-hover:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
@@ -161,7 +171,12 @@ const Dashboard = () => {
                             <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
                                 <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
                                     <h3 className="font-bold text-slate-900">Recent Chats</h3>
-                                    <button className="text-indigo-600 font-bold text-sm hover:text-indigo-700 transition">Create New +</button>
+                                    <button
+                                        onClick={() => navigate('/ask')}
+                                        className="text-indigo-600 font-bold text-sm hover:text-indigo-700 transition"
+                                    >
+                                        Create New +
+                                    </button>
                                 </div>
                                 <div className="divide-y divide-slate-50">
                                     {[
