@@ -13,10 +13,10 @@ const Login = () => {
     setError('');
     setLoading(true);
 
-    console.log('Attempting login to:', 'http://127.0.0.1:8000/login');
+    console.log('Attempting login to:', `${import.meta.env.VITE_API_BASE}/login`);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/login', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ const Login = () => {
     } catch (err) {
       console.error('Login error detail:', err);
       if (err.message === 'Failed to fetch') {
-        setError('Connection failed. Please ensure your backend server is running at http://127.0.0.1:8000 and CORS is enabled.');
+        setError(`Connection failed. Please ensure your backend server is running at ${import.meta.env.VITE_API_BASE} and CORS is enabled.`);
       } else {
         setError(err.message);
       }

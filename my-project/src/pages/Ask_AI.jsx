@@ -78,7 +78,7 @@ const Ask_AI = () => {
     const fetchConversations = async () => {
         const token = localStorage.getItem('access_token');
         try {
-            const response = await fetch('http://localhost:8000/conversations', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE}/conversations`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -95,7 +95,7 @@ const Ask_AI = () => {
         setCurrentConversationId(convId);
         setIsLoading(true);
         try {
-            const response = await fetch(`http://localhost:8000/history/${convId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE}/history/${convId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (response.ok) {
@@ -137,7 +137,7 @@ const Ask_AI = () => {
         setIsLoading(true);
 
         try {
-            const response = await fetch('http://localhost:8000/ask', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE}/ask`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -188,7 +188,7 @@ const Ask_AI = () => {
         formData.append('file', file);
 
         try {
-            const response = await fetch('http://localhost:8000/upload', {
+            const response = await fetch(`${import.meta.env.VITE_API_BASE}/upload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -199,7 +199,7 @@ const Ask_AI = () => {
 
                 // Add to gallery if it's an image
                 if (file.type.startsWith('image/')) {
-                    const imgUrl = `http://localhost:8000${data.url}`;
+                    const imgUrl = `${import.meta.env.VITE_API_BASE}${data.url}`;
                     setGalleryImages(prev => [imgUrl, ...prev]);
                 }
 

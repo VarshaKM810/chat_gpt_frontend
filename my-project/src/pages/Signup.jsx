@@ -29,10 +29,10 @@ const Signup = () => {
     }
 
     setLoading(true);
-    console.log('Attempting signup to:', 'http://127.0.0.1:8000/signup');
+    console.log('Attempting signup to:', `${import.meta.env.VITE_API_BASE}/signup`);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/signup', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const Signup = () => {
     } catch (err) {
       console.error('Signup error detail:', err);
       if (err.message === 'Failed to fetch') {
-        setError('Connection failed. Please ensure your backend server is running at http://127.0.0.1:8000 and CORS is enabled.');
+        setError(`Connection failed. Please ensure your backend server is running at ${import.meta.env.VITE_API_BASE} and CORS is enabled.`);
       } else {
         setError(err.message);
       }
